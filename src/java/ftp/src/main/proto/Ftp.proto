@@ -1,0 +1,32 @@
+syntax = "proto3";
+package pdytr.example.grpc;
+
+message ReadRequest {
+  string filename = 1;
+  int32 position = 2;
+  int32 offset = 3;
+}
+
+message ReadResponse {
+  bytes content = 1;
+  int32 bytes_read = 2;
+  bytes checksum = 3;
+}
+
+message WriteRequest {
+  string filename = 1;
+  int32 offset = 2;
+  bytes content = 3;
+  bool destroy_mode = 4;
+  bytes checksum = 5;
+}
+
+message WriteResponse {
+  int64 bytes_written = 1;
+  bool error = 2;
+}
+
+service Ftp {
+  rpc read(ReadRequest) returns (ReadResponse);
+  rpc write(WriteRequest) returns (WriteResponse);
+}
